@@ -84,6 +84,17 @@ Requirements:
             </div>
           </div>
           <div className="flex gap-2 shrink-0">
+            <Link href={`/meetings/${id}/edit`}>
+  <Button variant="outline" size="sm">Edit</Button>
+</Link>
+<Button
+  variant="outline"
+  size="sm"
+  onClick={handleCopyPrompt}
+  className="text-[#2563EB] border-blue-200 hover:border-blue-300"
+>
+  {copied ? '✓ Copied' : 'Copy Follow-Up Prompt'}
+</Button>
             <Button
               variant="outline"
               size="sm"

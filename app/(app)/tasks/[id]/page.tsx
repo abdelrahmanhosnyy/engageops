@@ -73,15 +73,18 @@ export default function TaskDetailPage() {
         <Link href="/tasks" className="text-sm text-slate-400 hover:text-slate-600">← Tasks</Link>
         <div className="flex items-start justify-between mt-2 gap-4">
           <h1 className="text-2xl font-semibold text-[#0F172A]">{task.title}</h1>
-          <Button
-            variant="outline"
-            size="sm"
-            className="text-red-600 hover:text-red-700 border-red-200 shrink-0"
-            onClick={handleDelete}
-            disabled={deleting}
-          >
-            Delete
-          </Button>
+         <Link href={`/tasks/${id}/edit`}>
+  <Button variant="outline" size="sm">Edit</Button>
+</Link>
+<Button
+  variant="outline"
+  size="sm"
+  className="text-red-600 hover:text-red-700 border-red-200 shrink-0"
+  onClick={handleDelete}
+  disabled={deleting}
+>
+  Delete
+</Button>
         </div>
       </div>
 

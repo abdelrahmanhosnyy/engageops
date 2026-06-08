@@ -1,5 +1,6 @@
-'use client'
 
+'use client'
+import SearchDialog from '@/components/shared/SearchDialog'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
 import { createClient } from '@/lib/supabase/client'
@@ -29,7 +30,9 @@ export default function Sidebar() {
       <div className="px-4 py-5 border-b border-slate-200">
         <span className="font-semibold text-[#0F172A] text-sm">EngageOps</span>
       </div>
-
+<div className="px-2 pt-2 pb-1">
+  <SearchDialog />
+</div>
       <nav className="flex-1 px-2 py-4 space-y-0.5">
         {navItems.map((item) => {
           const isActive = pathname.startsWith(item.href)
