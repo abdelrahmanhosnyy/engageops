@@ -79,8 +79,7 @@ const [loading, setLoading] = useState(false)
   <Input
     placeholder="e.g. Ahmed, Client, Dev team"
     value={owner}
-    onChange={e => { setOwner(e.target.value as TaskOwner); setShowSuggestions(true) }}
-    onFocus={() => setShowSuggestions(true)}
+onChange={e => { setOwner(e.target.value); setShowSuggestions(true) }}    onFocus={() => setShowSuggestions(true)}
     onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
   />
   {showSuggestions && ownerSuggestions.filter(s =>
