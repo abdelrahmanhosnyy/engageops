@@ -3,7 +3,7 @@
 import { useEffect, useState } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
-import { Client, TaskStatus, TaskOwner } from '@/types'
+import { Client, TaskStatus } from '@/types'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
@@ -11,15 +11,17 @@ import { Textarea } from '@/components/ui/textarea'
 
 export default function NewTaskPage() {
   const router = useRouter()
-  const [clients, setClients] = useState<Client[]>([])
-  const [title, setTitle] = useState('')
-  const [clientId, setClientId] = useState('')
+const [clients, setClients] = useState<Client[]>([])
+const [title, setTitle] = useState('')
+const [clientId, setClientId] = useState('')
+const [owner, setOwner] = useState('')
 const [ownerSuggestions, setOwnerSuggestions] = useState<string[]>([])
-const [showSuggestions, setShowSuggestions] = useState(false)  const [description, setDescription] = useState('')
-  const [status, setStatus] = useState<TaskStatus>('Not Started')
-  const [dueDate, setDueDate] = useState('')
-  const [error, setError] = useState('')
-  const [loading, setLoading] = useState(false)
+const [showSuggestions, setShowSuggestions] = useState(false)
+const [description, setDescription] = useState('')
+const [status, setStatus] = useState<TaskStatus>('Not Started')
+const [dueDate, setDueDate] = useState('')
+const [error, setError] = useState('')
+const [loading, setLoading] = useState(false)
 
   useEffect(() => {
     fetch('/api/clients')
