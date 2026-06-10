@@ -14,8 +14,8 @@ export default function NewTaskPage() {
   const [clients, setClients] = useState<Client[]>([])
   const [title, setTitle] = useState('')
   const [clientId, setClientId] = useState('')
-  const [owner, setOwner] = useState<TaskOwner>('Me')
-  const [description, setDescription] = useState('')
+const [ownerSuggestions, setOwnerSuggestions] = useState<string[]>([])
+const [showSuggestions, setShowSuggestions] = useState(false)  const [description, setDescription] = useState('')
   const [status, setStatus] = useState<TaskStatus>('Not Started')
   const [dueDate, setDueDate] = useState('')
   const [error, setError] = useState('')
@@ -25,6 +25,9 @@ export default function NewTaskPage() {
     fetch('/api/clients')
       .then(r => r.json())
       .then(({ data }) => setClients(data || []))
+      fetch('/api/tasks/owners')
+  .then(r => r.json())
+  .then(({ data }) => setOwnerSuggestions(data || []))
   }, [])
 
   async function handleSubmit() {
@@ -69,32 +72,33 @@ export default function NewTaskPage() {
           </select>
         </div>
 
-        <div className="grid grid-cols-2 gap-4">
-          <div className="space-y-1.5">
-            <Label>Owner</Label>
-            <select
-              value={owner}
-              onChange={e => setOwner(e.target.value as TaskOwner)}
-              className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 bg-white"
-            >
-              <option value="Me">Me</option>
-              <option value="Client">Client</option>
-            </select>
-          </div>
-          <div className="space-y-1.5">
-            <Label>Status</Label>
-            <select
-              value={status}
-              onChange={e => setStatus(e.target.value as TaskStatus)}
-              className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm text-slate-700 bg-white"
-            >
-              <option>Not Started</option>
-              <option>In Progress</option>
-              <option>Waiting for Client</option>
-              <option>Done</option>
-            </select>
-          </div>
-        </div>
+      <div className="space-y-1.5 relative">
+  <Label>Pending On</Label>
+  <Input
+    placeholder="e.g. Ahmed, Client, Dev team"
+    value={owner}
+    onChange={e => { setOwner(e.target.value as TaskOwner); setShowSuggestions(true) }}
+    onFocus={() => setShowSuggestions(true)}
+    onBlur={() => setTimeout(() => setShowSuggestions(false), 150)}
+  />
+  {showSuggestions && ownerSuggestions.filter(s =>
+    s.toLowerCase().includes(owner.toLowerCase()) && s !== owner
+  ).length > 0 && (
+    <div className="absolute z-10 top-full mt-1 w-full bg-white border border-slate-200 rounded-lg shadow-md overflow-hidden">
+      {ownerSuggestions
+        .filter(s => s.toLowerCase().includes(owner.toLowerCase()) && s !== owner)
+        .map(s => (
+          <button
+            key={s}
+            onMouseDown={() => { setOwner(s as TaskOwner); setShowSuggestions(false) }}
+            className="w-full text-left px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
+          >
+            {s}
+          </button>
+        ))}
+    </div>
+  )}
+</div>
 
         <div className="space-y-1.5">
           <Label>Due Date</Label>

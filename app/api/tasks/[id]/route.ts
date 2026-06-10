@@ -1,7 +1,6 @@
 import { createClient } from '@/lib/supabase/server'
 import { NextResponse } from 'next/server'
 
-// GET /api/tasks/:id — single task with updates and attachments
 export async function GET(
   _request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -27,7 +26,6 @@ export async function GET(
   return NextResponse.json({ data })
 }
 
-// PATCH /api/tasks/:id — update task
 export async function PATCH(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
@@ -36,15 +34,17 @@ export async function PATCH(
   const body = await request.json()
   const { id } = await params
 
+  const updateData: any = {}
+  if (body.title !== undefined) updateData.title = body.title
+  if (body.owner !== undefined) updateData.owner = body.owner
+  if (body.description !== undefined) updateData.description = body.description
+  if (body.status !== undefined) updateData.status = body.status
+  if (body.due_date !== undefined) updateData.due_date = body.due_date
+  if (body.archived_at !== undefined) updateData.archived_at = body.archived_at
+
   const { data, error } = await supabase
     .from('tasks')
-    .update({
-      title: body.title,
-      owner: body.owner,
-      description: body.description,
-      status: body.status,
-      due_date: body.due_date,
-    })
+    .update(updateData)
     .eq('id', id)
     .select()
     .single()
@@ -53,7 +53,6 @@ export async function PATCH(
   return NextResponse.json({ data })
 }
 
-// DELETE /api/tasks/:id — soft delete
 export async function DELETE(
   _request: Request,
   { params }: { params: Promise<{ id: string }> }

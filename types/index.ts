@@ -16,14 +16,16 @@ export type Task = {
   client_id: string
   meeting_action_item_id: string | null
   title: string
-  owner: TaskOwner
+  owner: string
   description: string | null
   status: TaskStatus
   due_date: string | null
   created_at: string
   updated_at: string
   deleted_at: string | null
+  archived_at: string | null
   client?: Client
+  updates?: TaskUpdate[]
 }
 
 export type TaskUpdate = {
