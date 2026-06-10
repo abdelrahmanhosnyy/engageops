@@ -91,8 +91,7 @@ onChange={e => { setOwner(e.target.value); setShowSuggestions(true) }}    onFocu
         .map(s => (
           <button
             key={s}
-            onMouseDown={() => { setOwner(s as TaskOwner); setShowSuggestions(false) }}
-            className="w-full text-left px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
+onMouseDown={() => { setOwner(s); setShowSuggestions(false) }}            className="w-full text-left px-3 py-2 text-sm text-slate-700 hover:bg-slate-50"
           >
             {s}
           </button>
